@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using library_system_dotnet.Data;
+using library_system_dotnet.Mappers.Book;
 using library_system_dotnet.Models;
 using library_system_dotnet.Models.Dto.Book;
 using library_system_dotnet.Services.Contracts;
@@ -30,10 +31,12 @@ namespace library_system_dotnet.Controllers
         //}
 
         [HttpGet("api/books")]
-        public async Task<ActionResult<IEnumerable<BookReadDto>>> GetAllAsync()
+        public async Task<IEnumerable<BookReadDto>> GetAllAsync()
         {
-            var books = await _bookService.GetAllAsync();
-            return Ok(books);
+            //var books = await _bookService.GetAllAsync();
+            var books = await _context.Books.ToListAsync();
+            //return Ok(books);
+            return books.Select(BookMapper.ToReadDto);
         }
 
         // GET: Books/Details/5

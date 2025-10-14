@@ -17,9 +17,10 @@ namespace library_system_dotnet.Controllers
         private readonly AppDbContext _context;
         private readonly IBookService _bookService;
 
-        public BooksController(AppDbContext context)
+        public BooksController(AppDbContext context, IBookService bookService)
         {
             _context = context;
+            _bookService = bookService;
         }
 
         // GET: Books

@@ -7,12 +7,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using library_system_dotnet.Data;
 using library_system_dotnet.Models;
+using library_system_dotnet.Models.Dto.Book;
+using library_system_dotnet.Services.Contracts;
 
 namespace library_system_dotnet.Controllers
 {
     public class BooksController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IBookService _bookService;
 
         public BooksController(AppDbContext context)
         {
@@ -20,9 +23,16 @@ namespace library_system_dotnet.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    return View(await _context.Books.ToListAsync());
+        //}
+
+        [HttpGet("api/books")]
+        public async Task<ActionResult<IEnumerable<BookReadDto>>> GetAllAsync()
         {
-            return View(await _context.Books.ToListAsync());
+            var books = await _bookService.GetAllAsync();
+            return Ok(books);
         }
 
         // GET: Books/Details/5

@@ -30,13 +30,14 @@ namespace library_system_dotnet.Controllers
         //    return View(await _context.Books.ToListAsync());
         //}
 
-        [HttpGet("api/books")]
-        public async Task<IEnumerable<BookReadDto>> GetAllAsync()
+        [HttpGet("books")]
+        public async Task<ActionResult<IEnumerable<BookReadDto>>> Index()
         {
             //var books = await _bookService.GetAllAsync();
             var books = await _context.Books.ToListAsync();
             //return Ok(books);
-            return books.Select(BookMapper.ToReadDto);
+            var bookDtos = books.Select(BookMapper.ToReadDto);
+            return View(bookDtos);
         }
 
         // GET: Books/Details/5

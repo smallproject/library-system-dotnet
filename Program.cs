@@ -1,7 +1,18 @@
+using library_system_dotnet.Data;
+using library_system_dotnet.Mappers.Book;
+using library_system_dotnet.Services.Contracts;
+using library_system_dotnet.Services.Implementations;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllersWithViews();
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddAutoMapper(typeof(BookProfile));
 
 var app = builder.Build();
 
